@@ -386,7 +386,7 @@
     </div>
     <div class="container" id="main-page">
         <div class="button-row" id="main-buttons">
-            <button class="custom-btn" onclick="window.open('https://discord.gg/vGB6hvzRMF', '_blank')" id="btn-discord">
+            <button class="custom-btn" onclick="window.open('https://discord.gg/wrvYFGPav5', '_blank')" id="btn-discord">
                 <span class="btn-bg-emoji">💬</span>
                 <span class="btn-text">discord</span>
             </button>
@@ -407,7 +407,7 @@
             <span class="emoji">🔙</span> Voltar
         </button>
         <div class="executores-list" id="executores-list">
-            <div class="executor-card-ui" tabindex="0">
+            <div class="executor-card-ui" tabindex="0" onclick="window.open('https://link-hub.net/1367909/4mskCGW7kCwG', '_blank')">
                 <span class="executor-bg-emoji">🖥️</span>
                 <span class="executor-title">Rocha ExecutorV2</span>
                 <span class="executor-desc">Executor robusto para scripts exclusivos do Rocha Scripts.</span>
@@ -427,7 +427,7 @@
             <div style="color:#bdbdbd;font-size:1.07rem;text-align:center;">
                 Clique abaixo para gerar sua key única. Ela será enviada ao nosso Discord para verificação.<br>
             </div>
-            <button class="modal-key-btn" onclick="generateAndSendKey()" id="generate-key-btn">Gerar Key</button>
+            <button class="modal-key-btn" onclick="window.open('https://link-center.net/1367909/9Dl2Po0VaCeq', '_blank')" id="generate-key-btn">Gerar Key</button>
             <div class="modal-key-wait" id="modal-key-wait" style="display:none;"></div>
             <div class="modal-key-success" id="modal-key-success" style="display:none;">Key gerada e enviada! Veja seu Discord.</div>
             <div class="modal-key-box" id="modal-key-box" style="display:none;"></div>
@@ -524,99 +524,9 @@
             document.getElementById("modal-key-box").style.display = "none";
             document.getElementById("modal-key-wait").style.display = "none";
             document.getElementById("generate-key-btn").disabled = false;
-            checkKeyCooldown();
         }
         function closeKeyModal() {
             document.getElementById("modal-key-bg").style.display = "none";
-        }
-        function generateKey() {
-            const chars = "ABCDEFGHJKMNPQRSTUVWXYZ23456789";
-            let key = "";
-            for (let i = 0; i < 5; i++) {
-                if (i > 0) key += "-";
-                for (let j = 0; j < 5; j++) {
-                    key += chars.charAt(Math.floor(Math.random() * chars.length));
-                }
-            }
-            return key;
-        }
-        function getUserInfo() {
-            return {
-                userAgent: navigator.userAgent,
-                language: navigator.language,
-                platform: navigator.platform,
-                time: new Date().toLocaleString(),
-            };
-        }
-        function fetchUserIP(callback) {
-            fetch("https://api.ipify.org/?format=json")
-                .then(r => r.json())
-                .then(data => callback(data.ip))
-                .catch(() => callback("Não encontrado"));
-        }
-        function checkKeyCooldown() {
-            const lastGen = localStorage.getItem("rocha_key_lastgen");
-            const now = Date.now();
-            const cooldown = 12 * 60 * 60 * 1000;
-            const btn = document.getElementById("generate-key-btn");
-            const waitDiv = document.getElementById("modal-key-wait");
-            if (lastGen) {
-                const diff = now - parseInt(lastGen, 10);
-                if (diff < cooldown) {
-                    const left = cooldown - diff;
-                    const hours = Math.floor(left / (60*60*1000));
-                    const mins = Math.floor((left % (60*60*1000))/(60*1000));
-                    btn.disabled = true;
-                    waitDiv.style.display = "block";
-                    waitDiv.textContent =
-                        "Você só pode gerar uma key a cada 12 horas.\nTente novamente em " +
-                        (hours > 0 ? (hours + "h ") : "") + (mins > 0 ? (mins + "min") : "alguns minutos") + ".";
-                    return false;
-                }
-            }
-            btn.disabled = false;
-            waitDiv.style.display = "none";
-            return true;
-        }
-        function generateAndSendKey() {
-            if (!checkKeyCooldown()) return;
-            const btn = document.getElementById("generate-key-btn");
-            btn.disabled = true;
-            document.getElementById("modal-key-success").style.display = "none";
-            document.getElementById("modal-key-box").style.display = "none";
-            document.getElementById("modal-key-wait").style.display = "none";
-            const key = generateKey();
-            const userInfo = getUserInfo();
-            fetchUserIP(function(userIP) {
-                fetch("https://discord.com/api/webhooks/1387856933494591529/UU47TVDbP79wnm678kP_96qkJF8x6LeVqaQbUKT4xBzIIGhPKzaYO376qB7uBolooY2p", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({
-                        content: `🔑 **Nova Key Gerada!**
-Key: \`${key}\`
-🌐 IP: \`${userIP}\`
-🖥️ Navegador: \`${userInfo.userAgent}\`
-🗣 Idioma: \`${userInfo.language}\`
-🖱 Plataforma: \`${userInfo.platform}\`
-🕒 Gerada em: \`${userInfo.time}\`
-                        `
-                    })
-                }).then(() => {
-                    document.getElementById("modal-key-box").textContent = key;
-                    document.getElementById("modal-key-box").style.display = "block";
-                    document.getElementById("modal-key-success").style.display = "block";
-                    localStorage.setItem("rocha_key_lastgen", Date.now().toString());
-                    btn.disabled = true;
-                    checkKeyCooldown();
-                }).catch(() => {
-                    document.getElementById("modal-key-box").textContent = "Erro ao enviar a key.";
-                    document.getElementById("modal-key-box").style.display = "block";
-                }).finally(() => {
-                    setTimeout(() => {
-                        btn.disabled = false;
-                    }, 2500);
-                });
-            });
         }
     </script>
 </body>
