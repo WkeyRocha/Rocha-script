@@ -4,334 +4,540 @@
     <meta charset="UTF-8">
     <title>Rocha Scripts</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Google Fonts for modern look -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
-        body {
+        html, body {
+            min-height: 100vh;
             margin: 0;
             padding: 0;
-            min-height: 100vh;
-            font-family: 'Segoe UI', Arial, sans-serif;
-            background: linear-gradient(135deg, #19366b 40%, #14151c 100%);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
+            font-family: 'Inter', Arial, sans-serif;
+            background: radial-gradient(ellipse at 60% 20%, #19366b 0%, #14151c 100%);
+            overflow-x: hidden;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
         }
-        .container {
-            background: rgba(22,28,54,0.92);
-            padding: 38px 28px 30px 28px;
-            border-radius: 22px;
-            box-shadow: 0 8px 32px rgba(11,59,193,0.18), 0 2px 18px #0002;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 38px;
+        .orb {
+            position: fixed;
+            z-index: 0;
+            border-radius: 50%;
+            pointer-events: none;
+            filter: blur(36px);
+            opacity: 0.33;
+            animation: floatOrb 16s infinite alternate;
+        }
+        .orb1 { width: 320px; height: 320px; left: -100px; top: -100px; background: radial-gradient(circle at 30% 30%, #0b3bc1 0%, #7be2fa40 80%, transparent 100%); animation-delay: 0s;}
+        .orb2 { width: 200px; height: 200px; right: -50px; top: 6vh; background: radial-gradient(circle at 70% 20%, #0b8cc1 0%, #3bb2ff38 80%, transparent 100%); animation-delay: 2s;}
+        .orb3 { width: 180px; height: 180px; left: -60px; bottom: -70px; background: radial-gradient(circle at 20% 90%, #20f0a0bf 0%, #0b3bc140 80%, transparent 100%); animation-delay: 1s;}
+        .orb4 { width: 330px; height: 330px; right: -120px; bottom: -130px; background: radial-gradient(circle at 80% 70%, #3e7cf6a8 0%, #1a4a8419 80%, transparent 100%); opacity: 0.22; animation-delay: 3.5s;}
+        @keyframes floatOrb {
+            0%   { transform: scale(1) translateY(0); }
+            100% { transform: scale(1.08) translateY(40px);}
+        }
+        .sparkle-container {
+            position: fixed;
+            left: 0; top: 0; width: 100vw; height: 100vh;
+            pointer-events: none;
+            z-index: 3;
+            overflow: visible;
+        }
+        .sparkle {
+            position: absolute;
+            width: 8px; height: 8px;
+            border-radius: 50%;
+            background: radial-gradient(circle, #fff 0%, #0b3bc1bb 80%, transparent 100%);
+            opacity: 0.7;
+            animation: sparkleAnim 2.2s linear infinite;
+            box-shadow: 0 0 16px #0b3bc1cc, 0 0 4px #fff;
+        }
+        @keyframes sparkleAnim {
+            0%   { opacity: 0; transform: scale(0.2);}
+            35%  { opacity: 0.7; transform: scale(1.3);}
+            65%  { opacity: 1; transform: scale(0.7);}
+            100% { opacity: 0; transform: scale(1);}
+        }
+        .decor-line {
+            position: fixed;
+            width: 4px; height: 180px;
+            background: linear-gradient(180deg, #0b3bc130 0%, #8fbcff0a 70%, transparent 100%);
+            z-index: 2;
+            border-radius: 8px;
+            filter: blur(0.5px);
+            animation: decorLineMove 7s ease-in-out infinite alternate;
+        }
+        .decor-line.left {
+            left: 34px;
+            top: 18vh;
+            transform: rotate(-10deg);
+        }
+        .decor-line.right {
+            right: 34px;
+            bottom: 10vh;
+            transform: rotate(8deg);
+            animation-delay: 2.2s;
+        }
+        @keyframes decorLineMove {
+            0%   { height: 140px; opacity: 0.55;}
+            100% { height: 210px; opacity: 0.18;}
         }
         .logo {
-            font-size: 2.2rem;
-            font-weight: bold;
+            position: absolute;
+            top: 38px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-weight: 800;
+            font-size: 2.5rem;
             color: #fff;
-            letter-spacing: 2px;
-            margin-bottom: 10px;
+            letter-spacing: 2.5px;
+            user-select: none;
+            z-index: 10;
+            background: rgba(24,26,40,0.90);
+            padding: 18px 52px 18px 38px;
+            border-radius: 28px;
+            box-shadow: 0 3px 16px 2px #0b3bc140, 0 1px 8px #0002;
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 18px;
+            border: 2.5px solid #0b3bc1;
+            backdrop-filter: blur(2.5px);
         }
-        .btn-row {
+        .logo .emoji {
+            font-size: 2.2em;
+        }
+        .container {
             display: flex;
-            gap: 28px;
-            margin-bottom: 10px;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            z-index: 1;
+            position: relative;
+        }
+        .button-row {
+            display: flex;
             flex-wrap: wrap;
             justify-content: center;
+            gap: 44px;
+            margin-top: 22vh;
+            margin-bottom: 40px;
+            width: 100%;
         }
         .custom-btn {
             background: linear-gradient(135deg, #1b5ae6 0%, #0b3bc1 70%, #1d192a 100%);
             color: #fff;
             border: none;
-            border-radius: 30px;
-            padding: 26px 44px;
-            font-size: 1.45rem;
-            font-weight: bold;
+            border-radius: 36px;
+            padding: 40px 60px;
+            font-size: 2.2rem;
+            font-weight: 800;
             cursor: pointer;
-            box-shadow: 0 4px 18px #0b3bc140;
-            transition: background 0.21s, box-shadow 0.15s, transform 0.17s;
+            transition: box-shadow 0.21s, background 0.18s, transform 0.15s, filter 0.2s;
+            box-shadow: 0 8px 32px 0 #0b3bc155, 0 2px 18px #0b3bc120;
+            min-width: 200px;
+            min-height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 18px;
+            border: 2.5px solid #1b3f73;
+            outline: none;
+            letter-spacing: 1.5px;
+            position: relative;
+            overflow: hidden;
         }
         .custom-btn:hover, .custom-btn:focus {
             background: linear-gradient(135deg, #2564e0 0%, #174acb 75%, #18151f 100%);
-            box-shadow: 0 4px 24px #2186ff44;
-            transform: scale(1.05);
+            box-shadow: 0 0 0 12px #2186ff44, 0 2px 26px #0b3bc1bb;
+            filter: brightness(1.13) saturate(1.12);
+            transform: translateY(-2px) scale(1.053);
+            border-color: #0b3bc1;
         }
-        .executores-section {
-            width: 100%;
+        .custom-btn .btn-bg-emoji {
+            content: "";
+            position: absolute;
+            font-size: 7.5rem;
+            opacity: 0;
+            pointer-events: none;
+            left: 50%; top: 50%;
+            transform: translate(-50%, -50%) scale(1.1) rotate(-18deg);
+            transition: opacity 0.33s cubic-bezier(.67,0,.34,1.4), transform 0.33s;
+            filter: drop-shadow(0 8px 32px #0008) blur(0.2px);
+            z-index: 0;
+            user-select: none;
+            will-change: opacity, transform;
+            line-height: 1;
+        }
+        .custom-btn:hover .btn-bg-emoji, .custom-btn:focus .btn-bg-emoji {
+            opacity: 0.16;
+            transform: translate(-50%, -50%) scale(1.16) rotate(0deg);
+        }
+        .custom-btn span.btn-text {
+            position: relative;
+            z-index: 1;
+        }
+        .main-info-baixar {
+            margin: 38px auto 0 auto;
+            padding: 20px 30px;
+            color: #fffbe1;
+            background: #1b234a;
+            border-radius: 14px;
+            font-size: 1.13rem;
+            font-weight: 500;
+            box-shadow: 0 2px 8px #0b3bc122;
+            text-align: center;
+            max-width: 500px;
+        }
+        .executores-page,
+        .scripts-page {
             display: none;
             flex-direction: column;
             align-items: center;
-            margin-top: 18px;
-            gap: 24px;
+            min-height: 80vh;
+            margin-top: 120px;
+            width: 100vw;
+            z-index: 5;
         }
-        .executor-card {
+        .executores-list,
+        .scripts-list {
+            margin-top: 120px;
+            width: 100%;
+            max-width: 650px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+        .executor-card-ui,
+        .script-card-ui {
             background: linear-gradient(135deg, #1b5ae6 0%, #0b3bc1 70%, #1d192a 100%);
             color: #fff;
-            border-radius: 28px;
-            width: 350px;
-            min-height: 120px;
-            box-shadow: 0 6px 22px #0b3bc120;
+            border-radius: 36px;
+            width: 500px;
+            height: 240px;
+            min-width: 280px;
+            min-height: 160px;
+            box-shadow: 0 8px 32px 0 #0b3bc155, 0 2px 18px #0b3bc120;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            gap: 10px;
-            font-weight: bold;
-            cursor: pointer;
-            border: 2px solid #1b3f73;
+            gap: 18px;
+            border: 2.5px solid #1b3f73;
             outline: none;
-            padding: 24px 10px;
+            letter-spacing: 1.5px;
             position: relative;
-            transition: box-shadow 0.21s, background 0.18s, transform 0.15s;
+            overflow: visible;
+            font-size: 1.40rem;
+            font-weight: 800;
+            cursor: pointer;
+            margin-bottom: 30px;
+            transition: box-shadow 0.21s, background 0.18s, transform 0.15s, filter 0.2s, border 0.2s;
         }
-        .executor-card:hover, .executor-card:focus {
+        .executor-card-ui .executor-bg-emoji,
+        .script-card-ui .script-bg-emoji {
+            content: "";
+            position: absolute;
+            font-size: 9rem;
+            opacity: 0;
+            pointer-events: none;
+            left: 50%; top: 50%;
+            transform: translate(-50%, -50%) scale(1.1) rotate(-18deg);
+            transition: opacity 0.33s cubic-bezier(.67,0,.34,1.4), transform 0.33s;
+            filter: drop-shadow(0 8px 32px #0008) blur(0.2px);
+            z-index: 0;
+            user-select: none;
+            will-change: opacity, transform;
+            line-height: 1;
+        }
+        .executor-card-ui:hover, .executor-card-ui:focus,
+        .script-card-ui:hover, .script-card-ui:focus {
             background: linear-gradient(135deg, #2564e0 0%, #174acb 75%, #18151f 100%);
-            box-shadow: 0 0 0 8px #2186ff33, 0 2px 16px #0b3bc1bb;
-            transform: scale(1.035);
+            box-shadow: 0 0 0 18px #2186ff44, 0 2px 32px #0b3bc1bb;
+            filter: brightness(1.13) saturate(1.12);
+            transform: translateY(-2px) scale(1.053);
             border-color: #0b3bc1;
         }
-        .executor-title {
-            font-size: 1.7rem;
-            margin-bottom: 4px;
+        .executor-card-ui:hover .executor-bg-emoji, .executor-card-ui:focus .executor-bg-emoji,
+        .script-card-ui:hover .script-bg-emoji, .script-card-ui:focus .script-bg-emoji {
+            opacity: 0.16;
+            transform: translate(-50%, -50%) scale(1.16) rotate(0deg);
         }
-        .executor-desc {
-            font-size: 1.05rem;
-            color: #c7e8ff;
-            font-weight: normal;
+        .executor-card-ui .executor-title,
+        .script-card-ui .script-title {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 2.7rem;
+            font-weight: 900;
+            color: #fff;
+            margin-top: 20px;
+        }
+        .executor-card-ui .executor-desc,
+        .script-card-ui .script-desc {
+            position: relative;
+            z-index: 1;
+            color: #c9e6ff;
+            font-size: 1.20rem;
+            font-weight: 400;
             margin-bottom: 8px;
             text-align: center;
         }
-        .executor-status {
+        .executor-status-box,
+        .script-status-box {
+            margin: 0 auto;
+            margin-top: 3px;
+            width: 210px;
+            min-height: 43px;
+            border-radius: 16px;
+            background: #181c24;
+            color: #fff;
+            border: 2px solid #0b3bc1;
+            box-shadow: 0 1px 10px #0b3bc120;
+            font-size: 1.21rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            letter-spacing: 1px;
+            opacity: 0;
+            pointer-events: none;
             position: absolute;
-            right: 18px;
-            bottom: 14px;
-            font-size: 1rem;
-            font-weight: 500;
-            color: #18d45c;
-            background: #14233a;
-            padding: 3px 13px;
-            border-radius: 14px;
-            border: 1.5px solid #0b3bc1;
+            left: 50%;
+            bottom: -70px;
+            transform: translateX(-50%);
+            transition: opacity 0.22s cubic-bezier(.4,0,.2,1), bottom 0.19s cubic-bezier(.4,0,.2,1);
+        }
+        .executor-card-ui:hover .executor-status-box,
+        .executor-card-ui:focus .executor-status-box,
+        .script-card-ui:hover .script-status-box,
+        .script-card-ui:focus .script-status-box {
+            opacity: 1;
+            bottom: -80px;
+            pointer-events: auto;
         }
         .back-btn {
-            margin-top: 8px;
-            color: #fff;
             background: linear-gradient(135deg, #0b3bc1 0%, #183c99 100%);
-            border: 2px solid #23272e;
-            border-radius: 10px;
-            padding: 8px 16px;
-            font-size: 1rem;
+            color: #fff;
+            border-radius: 13px;
+            border: none;
+            padding: 13px 26px;
+            font-size: 1.13rem;
             font-weight: 600;
+            margin-bottom: 32px;
+            margin-top: 20px;
+            transition: box-shadow 0.16s, background 0.15s;
+            box-shadow: 0 1px 10px #0b3bc120;
             cursor: pointer;
-            transition: background 0.16s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border: 2px solid #23272e;
         }
         .back-btn:hover, .back-btn:focus {
             background: linear-gradient(135deg, #2564e0 0%, #174acb 100%);
+            box-shadow: 0 0 0 4px #a7c3fa55;
             border-color: #0b3bc1;
         }
-        .modal-bg {
+        .back-btn .emoji {font-size:1.2em;margin-right:4px;}
+        .modal-key-bg {
             display: none;
             position: fixed;
-            z-index: 1000;
+            z-index: 2100;
             left: 0; top: 0; right: 0; bottom: 0;
-            background: rgba(0,0,0,0.81);
+            background: rgba(0,0,0,0.82);
             align-items: center;
             justify-content: center;
         }
-        .modal-key {
-            background: linear-gradient(135deg, #23253a 80%, #1d1e2b 100%);
-            color: #fff;
-            border-radius: 18px;
-            box-shadow: 0 4px 32px #000a, 0 2px 18px #0b3bc120;
-            padding: 38px 28px 24px;
-            min-width: 310px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 18px;
-            position: relative;
-            border: 2px solid #0b3bc1;
-        }
-        .modal-key-close {
-            position: absolute;
-            right: 12px;
-            top: 8px;
-            color: #fff;
-            font-size: 1.5rem;
-            background: none;
-            border: none;
-            cursor: pointer;
-            opacity: 0.7;
-            padding: 5px 7px;
-            border-radius: 5px;
-            transition: background 0.14s, opacity 0.1s;
-        }
+        .modal-key-content {background:linear-gradient(135deg, #23253a 80%, #1d1e2b 100%);color:#fff;border-radius:18px;box-shadow:0 4px 32px #000a, 0 2px 18px #0b3bc120;padding:44px 38px 38px;min-width:340px;display:flex;flex-direction:column;align-items:center;gap:20px;position:relative;border:2px solid #0b3bc1;}
+        .modal-key-title {font-size:1.35rem;font-weight:bold;margin-bottom:10px;letter-spacing:1px;}
+        .modal-key-success {color:#18d45c;font-size:1.13rem;font-weight:bold;margin-top:7px;margin-bottom:3px;text-align:center;}
+        .modal-key-box {background:#18191c;color:#fff;border:2px dashed #0b3bc1;border-radius:10px;font-family:monospace;font-size:1.21rem;padding:9px 28px;text-align:center;letter-spacing:2.5px;font-weight:bold;margin-top:8px;margin-bottom:5px;word-break:break-all;}
+        .modal-key-btn {background:linear-gradient(135deg, #0b3bc1 0%, #183c99 100%);color:#fff;border:none;border-radius:10px;padding:13px 33px;font-size:1.14rem;font-weight:700;cursor:pointer;box-shadow:0 1px 8px #0b3bc120;margin-top:12px;transition:background 0.14s, box-shadow 0.14s;border:2px solid #0b3bc1;display:inline-block;}
+        .modal-key-btn[disabled] {opacity:.6;filter:grayscale(.1);cursor:not-allowed;}
+        .modal-key-btn:hover, .modal-key-btn:focus {background:linear-gradient(135deg, #2564e0 0%, #174acb 100%);box-shadow:0 0 0 3px #a7c3fa55;}
+        .modal-key-close {position:absolute;right:12px;top:10px;color:#fff;font-size:1.5rem;background:none;border:none;cursor:pointer;opacity:0.7;padding:5px 7px;border-radius:5px;transition:background 0.14s, opacity 0.1s;}
         .modal-key-close:hover {background:#283142;opacity:1;}
-        .footer {
-            margin-top: 28px;
-            color: #fff;
-            font-size: 1.12rem;
-            opacity: 0.92;
-            text-shadow: 0 2px 7px #0b3bc1, 0 1px 6px #0008;
-            letter-spacing: 1px;
-        }
-        /* CAPTCHA Styles */
-        .captcha-overlay {
-            position: fixed;
-            left: 0; top: 0; right: 0; bottom: 0;
-            background: rgba(10,16,28,0.93);
-            z-index: 2000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .captcha-box {
-            background: #181c27;
-            padding: 36px 34px 30px 34px;
-            border-radius: 18px;
-            box-shadow: 0 6px 36px #0b3bc188;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 18px;
-            border: 2px solid #0b3bc1;
-            min-width: 300px;
-        }
-        .captcha-title {
-            font-size: 1.25rem;
-            color: #fff;
-            font-weight: bold;
-            margin-bottom: 4px;
-        }
-        .captcha-instructions {
-            color: #bdbdbd;
-            font-size: 1.07rem;
-            text-align: center;
-            margin-bottom: 0;
-        }
-        .captcha-image {
-            font-family: monospace;
-            background: #10192b;
-            color: #0b3bc1;
-            padding: 8px 18px;
-            border-radius: 10px;
-            letter-spacing: 4px;
-            font-size: 1.55rem;
-            font-weight: 700;
-            border: 2px dashed #0b3bc1;
-            user-select: none;
-            margin-right: 8px;
-            min-width: 125px;
-            display: inline-block;
-            text-align: center;
-        }
-        .captcha-refresh-btn {
-            background: none;
-            border: none;
-            color: #0b3bc1;
-            font-size: 1.5rem;
-            cursor: pointer;
-            margin-left: 7px;
-            transition: color 0.2s;
-        }
-        .captcha-refresh-btn:hover { color: #2a6fff; }
-        .captcha-input {
-            font-size: 1.15rem;
-            padding: 7px 15px;
-            border-radius: 9px;
-            border: 2px solid #0b3bc1;
-            background: #181c24;
-            color: #fff;
-            outline: none;
-            width: 120px;
-            text-align: center;
-            letter-spacing: 2px;
-            font-family: 'Segoe UI', monospace, Arial, sans-serif;
-            font-weight: 600;
-        }
-        .captcha-submit-btn {
-            background: linear-gradient(135deg, #0b3bc1 0%, #183c99 100%);
-            color: #fff;
-            border-radius: 10px;
-            border: 2px solid #0b3bc1;
-            padding: 10px 28px;
-            font-size: 1.07rem;
-            font-weight: bold;
-            cursor: pointer;
-            margin-top: 10px;
-            transition: background 0.13s, box-shadow 0.14s;
-        }
-        .captcha-submit-btn:hover, .captcha-submit-btn:focus {
-            background: linear-gradient(135deg, #2564e0 0%, #174acb 100%);
-            box-shadow: 0 0 0 3px #a7c3fa55;
-        }
-        .captcha-error {
-            color: #da4848;
-            font-size: 1.02rem;
-            min-height: 18px;
-            margin-top: 3px;
-            margin-bottom: 0;
-        }
+        .modal-key-wait {color:#ffe66a;font-size:1.1rem;font-weight:bold;margin-top:13px;margin-bottom:5px;text-align:center;}
+        .security-overlay {position:fixed;inset:0;background:linear-gradient(135deg, #10111aee 0%, #191a22ec 100%);z-index:1000;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+        .security-box {background:linear-gradient(135deg, #212237 80%, #16171e 100%);padding:42px 38px 38px;border-radius:18px;box-shadow:0 4px 32px #000a, 0 2px 18px #0b3bc110;display:flex;flex-direction:column;align-items:center;gap:26px;min-width:340px;border:2px solid #0b3bc1;position:relative;}
+        .security-title {color:#fff;font-size:1.6rem;font-weight:bold;margin-bottom:12px;text-align:center;letter-spacing:1px;text-shadow:0 1px 15px #0b3bc155;}
+        .security-info {color:#bdbdbd;font-size:1.13rem;text-align:center;margin-bottom:6px;}
+        .captcha-box {margin-top:10px;display:flex;align-items:center;gap:12px;}
+        .captcha-input {font-size:1.3rem;padding:8px 15px;border-radius:8px;border:2px solid #0b3bc1;background:#18191c;color:#fff;outline:none;width:110px;text-align:center;letter-spacing:2px;font-family:'Inter', Arial, sans-serif;font-weight:600;}
+        .captcha-image {font-size:2rem;font-family:monospace;background:#18191c;padding:7px 17px;border-radius:10px;letter-spacing:4px;color:#0b3bc1;font-weight:700;user-select:none;border:2px dashed #0b3bc1;box-shadow:0 1px 8px #0b3bc166;min-width:140px;text-align:center;display:inline-block;}
+        .captcha-refresh {background:none;border:none;color:#0b3bc1;font-size:1.5rem;cursor:pointer;margin-left:7px;transition:color 0.2s;}
+        .captcha-refresh:hover {color:#2a6fff;}
+        .captcha-error {color:#da4848;font-size:1.08rem;margin-top:5px;min-height:18px;}
+        .security-btn {background:linear-gradient(135deg, #0b3bc1 0%, #183c99 100%);color:#fff;border:none;border-radius:12px;padding:13px 33px;font-size:1.13rem;font-weight:700;margin-top:10px;cursor:pointer;box-shadow:0 1px 8px #0b3bc120;transition:background 0.15s, box-shadow 0.15s;border:2px solid #0b3bc1;}
+        .security-btn:hover, .security-btn:focus {background:linear-gradient(135deg, #2564e0 0%, #174acb 100%);box-shadow:0 0 0 3px #a7c3fa;}
+        .footer {width:100vw;position:fixed;bottom:18px;left:0;text-align:center;z-index:10;font-size:1.18rem;color:#fff;font-weight:600;letter-spacing:1px;opacity:0.97;pointer-events:none;user-select:none;text-shadow:0 2px 7px #0b3bc1, 0 1px 6px #0008;display:flex;justify-content:center;align-items:center;gap:8px;}
+        .footer .emoji {font-size:1.1em;margin-right:5px;}
     </style>
 </head>
 <body>
-    <!-- CAPTCHA Overlay -->
-    <div class="captcha-overlay" id="captcha-overlay">
-        <form class="captcha-box" id="captcha-form" autocomplete="off" onsubmit="return false;">
-            <div class="captcha-title">🔒 Sistema de Segurança</div>
-            <div class="captcha-instructions">
+    <!-- Visual Effects -->
+    <div class="orb orb1"></div>
+    <div class="orb orb2"></div>
+    <div class="orb orb3"></div>
+    <div class="orb orb4"></div>
+    <div class="decor-line left"></div>
+    <div class="decor-line right"></div>
+    <div class="sparkle-container" id="sparkle-container"></div>
+
+    <div class="security-overlay" id="security-overlay">
+        <form class="security-box" id="captcha-form" onsubmit="return false;">
+            <div class="security-title"><span class="emoji">🔒</span> Sistema de Segurança</div>
+            <div class="security-info">
                 Para acessar o Rocha Scripts, confirme que você é uma pessoa:<br>
                 <span style="color:#0b3bc1;font-size:1.02em;">Digite o código abaixo corretamente.</span>
             </div>
-            <div>
+            <div class="captcha-box">
                 <span class="captcha-image" id="captcha-image"></span>
-                <button class="captcha-refresh-btn" type="button" title="Novo código" id="captcha-refresh-btn">🔄</button>
+                <button class="captcha-refresh" type="button" title="Novo código" id="captcha-refresh-btn">🔄</button>
             </div>
-            <input class="captcha-input" id="captcha-input" maxlength="6" placeholder="Código" autocomplete="off">
+            <input class="captcha-input" id="captcha-input" maxlength="6" autocomplete="off" placeholder="Código">
             <div class="captcha-error" id="captcha-error"></div>
-            <button class="captcha-submit-btn" id="captcha-submit-btn">Entrar</button>
+            <button class="security-btn" id="captcha-submit-btn">Entrar</button>
         </form>
     </div>
 
-    <div class="container" id="main-container" style="display:none;">
-        <div class="logo">
-            <span>🚀</span> Rocha Scripts
+    <div class="logo">
+        <span class="emoji">🚀</span> Rocha Scripts
+    </div>
+    <div class="container" id="main-page">
+        <div class="button-row" id="main-buttons">
+            <button class="custom-btn" onclick="window.open('https://discord.gg/vGB6hvzRMF', '_blank')" id="btn-discord">
+                <span class="btn-bg-emoji">💬</span>
+                <span class="btn-text">discord</span>
+            </button>
+            <button class="custom-btn" type="button" onclick="showExecutores()" id="btn-executores">
+                <span class="btn-bg-emoji">⚡</span>
+                <span class="btn-text">executores</span>
+            </button>
+            <button class="custom-btn" type="button" onclick="showScripts()" id="btn-scripts">
+                <span class="btn-bg-emoji">📜</span>
+                <span class="btn-text">scripts</span>
+            </button>
+            <button class="custom-btn" type="button" onclick="openKeyModal()" id="key-btn">
+                <span class="btn-bg-emoji">🔑</span>
+                <span class="btn-text">key</span>
+            </button>
         </div>
-        <div class="btn-row">
-            <button class="custom-btn" onclick="window.open('https://discord.gg/wrvYFGPav5', '_blank')">Discord</button>
-            <button class="custom-btn" onclick="mostrarExecutores()" id="btn-executores">Executores</button>
-            <button class="custom-btn" onclick="abrirKeyModal()" id="btn-key">Key</button>
-        </div>
-        <div class="executores-section" id="executores-section">
-            <button class="back-btn" onclick="voltarParaMenu()">Voltar</button>
-            <div class="executor-card" tabindex="0" onclick="window.open('https://link-hub.net/1367909/4mskCGW7kCwG', '_blank')">
-                <div class="executor-title">Rocha ExecutorV2</div>
-                <div class="executor-desc">Executor robusto para scripts exclusivos do Rocha Scripts.</div>
-                <span class="executor-status">Funcionando</span>
-            </div>
+        <div class="main-info-baixar">
+            Para baixar o <b>executor</b> ou <b>script</b>, <b>clique em cima do card desejado</b> na respectiva aba.<br>
+            O status aparecerá ao passar o mouse sobre cada card.
         </div>
     </div>
-    <div class="modal-bg" id="modal-bg">
-        <div class="modal-key">
-            <button class="modal-key-close" onclick="fecharKeyModal()" title="Fechar">&times;</button>
-            <div style="font-size:1.23rem;font-weight:bold;margin-bottom:6px;">Sistema de Key</div>
-            <div style="color:#bdbdbd;font-size:1rem;text-align:center;">
-                Clique abaixo para gerar sua key única.<br>
+
+    <!-- Página executores -->
+    <div class="container executores-page" id="executores-page">
+        <button class="back-btn" type="button" onclick="backToMain()">
+            <span class="emoji">🔙</span> Voltar
+        </button>
+        <div class="executores-list" id="executores-list">
+            <div class="executor-card-ui" tabindex="0" onclick="window.open('https://link-hub.net/1367909/4mskCGW7kCwG', '_blank')">
+                <span class="executor-bg-emoji">🖥️</span>
+                <span class="executor-title">Rocha ExecutorV2</span>
+                <span class="executor-desc">Executor robusto para scripts exclusivos do Rocha Scripts.</span>
+                <div class="executor-status-box">
+                    <span style="color:#18d45c;font-weight:bold;">status:</span>
+                    <span style="color:#0b3bc1;font-weight:700;margin-left:8px;">funcionando</span>
+                </div>
             </div>
-            <button class="custom-btn" style="padding:18px 35px;font-size:1.18rem;margin-top:12px;" id="btn-gerar-key">Gerar Key</button>
+        </div>
+        <div class="main-info-baixar" style="margin-top:10px;">
+            Para baixar o executor, <b>clique em cima do card</b>. O status aparecerá ao passar o mouse.
         </div>
     </div>
+
+    <!-- Página scripts -->
+    <div class="container scripts-page" id="scripts-page">
+        <button class="back-btn" type="button" onclick="backToMain()">
+            <span class="emoji">🔙</span> Voltar
+        </button>
+        <div class="scripts-list" id="scripts-list">
+            <div class="script-card-ui" tabindex="0" onclick="window.open('https://link-hub.net/1367909/SEUSCRIPT', '_blank')">
+                <span class="script-bg-emoji">💎</span>
+                <span class="script-title">Rocha HUB</span>
+                <span class="script-desc">Script multifunções premium, atualizado e sempre funcionando. Basta clicar para baixar!</span>
+                <div class="script-status-box">
+                    <span style="color:#18d45c;font-weight:bold;">status:</span>
+                    <span style="color:#0b3bc1;font-weight:700;margin-left:8px;">funcionando</span>
+                </div>
+            </div>
+        </div>
+        <div class="main-info-baixar" style="margin-top:10px;">
+            Para baixar o script, <b>clique em cima do card</b>. O status aparecerá ao passar o mouse.
+        </div>
+    </div>
+
+    <!-- Modal Key -->
+    <div class="modal-key-bg" id="modal-key-bg">
+        <div class="modal-key-content">
+            <button class="modal-key-close" onclick="closeKeyModal()" title="Fechar">&times;</button>
+            <div class="modal-key-title">Sistema de Key</div>
+            <div style="color:#bdbdbd;font-size:1.07rem;text-align:center;">
+                Clique abaixo para gerar sua key única. Ela será enviada ao nosso Discord para verificação.<br>
+            </div>
+            <button class="modal-key-btn" onclick="window.open('https://link-center.net/1367909/9Dl2Po0VaCeq', '_blank')" id="generate-key-btn">Gerar Key</button>
+            <div class="modal-key-wait" id="modal-key-wait" style="display:none;"></div>
+            <div class="modal-key-success" id="modal-key-success" style="display:none;">Key gerada e enviada! Veja seu Discord.</div>
+            <div class="modal-key-box" id="modal-key-box" style="display:none;"></div>
+        </div>
+    </div>
+
     <div class="footer">
-        ✨ maked by rocha
+        <span class="emoji">✨</span> maked by rocha
     </div>
     <script>
-        // CAPTCHA Logic
-        let captchaCode = '';
-        function gerarCaptcha() {
+        // Proteção básica: desabilita clique direito, seleção e teclas comuns de dev
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+            alert('Função desabilitada para proteção do código.');
+            return false;
+        });
+        document.addEventListener('keydown', function(e) {
+            if (
+                e.key === 'F12' ||
+                (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J' || e.key === 'C')) ||
+                (e.ctrlKey && (e.key === 'U' || e.key === 'S'))
+            ) {
+                e.preventDefault();
+                alert('Acesso bloqueado por proteção!');
+                return false;
+            }
+        });
+        document.addEventListener('selectstart', function(e) { e.preventDefault(); return false; });
+        document.addEventListener('dragstart', function(e) { e.preventDefault(); return false; });
+
+        // SPARKLES
+        function randomBetween(a, b) { return Math.random() * (b - a) + a; }
+        function createSparkle() {
+            const c = document.getElementById("sparkle-container");
+            if (!c) return;
+            const s = document.createElement("div");
+            s.className = "sparkle";
+            const place = Math.floor(Math.random()*5);
+            switch(place) {
+                case 0: s.style.left = randomBetween(5, 95) + "vw"; s.style.top = randomBetween(2, 8) + "vh"; break;
+                case 1: s.style.left = randomBetween(5, 95) + "vw"; s.style.top = randomBetween(92, 98) + "vh"; break;
+                case 2: s.style.left = randomBetween(1, 5) + "vw"; s.style.top = randomBetween(15, 85) + "vh"; break;
+                case 3: s.style.left = randomBetween(95, 99) + "vw"; s.style.top = randomBetween(15, 85) + "vh"; break;
+                default: s.style.left = randomBetween(35, 65) + "vw"; s.style.top = randomBetween(30, 70) + "vh";
+            }
+            s.style.animationDelay = randomBetween(0, 1.5) + "s";
+            c.appendChild(s);
+            setTimeout(() => { if(s.parentNode)c.removeChild(s); }, 2200);
+        }
+        setInterval(createSparkle, 320);
+
+        // CAPTCHA
+        let captchaCode = "";
+        function generateCaptcha() {
             const chars = "ABCDEFGHJKMNPQRSTUVWXYZ23456789";
             let code = "";
             for (let i = 0; i < 6; i++) {
@@ -340,7 +546,7 @@
             return code;
         }
         function refreshCaptcha() {
-            captchaCode = gerarCaptcha();
+            captchaCode = generateCaptcha();
             document.getElementById("captcha-image").textContent = captchaCode.split('').join(' ');
             document.getElementById("captcha-input").value = "";
             document.getElementById("captcha-error").textContent = "";
@@ -349,16 +555,13 @@
             const userInput = document.getElementById("captcha-input").value.trim().toUpperCase();
             const errorEl = document.getElementById("captcha-error");
             if (userInput === captchaCode) {
-                document.getElementById("captcha-overlay").style.display = "none";
-                document.getElementById("main-container").style.display = "flex";
+                document.getElementById("security-overlay").style.display = "none";
                 document.getElementById("captcha-input").value = "";
                 errorEl.textContent = "";
             } else {
                 errorEl.textContent = "Código incorreto. Tente novamente!";
-                setTimeout(() => {
-                    errorEl.textContent = "";
-                }, 1800);
                 refreshCaptcha();
+                setTimeout(() => { errorEl.textContent = ""; }, 2200);
             }
         }
         document.addEventListener("DOMContentLoaded", () => {
@@ -381,63 +584,33 @@
         });
 
         // EXECUTORES
-        function mostrarExecutores() {
-            document.getElementById('executores-section').style.display = 'flex';
-            document.querySelector('.btn-row').style.display = 'none';
+        function showExecutores() {
+            document.getElementById("main-page").style.display = "none";
+            document.getElementById("executores-page").style.display = "flex";
+            document.getElementById("scripts-page").style.display = "none";
         }
-        function voltarParaMenu() {
-            document.getElementById('executores-section').style.display = 'none';
-            document.querySelector('.btn-row').style.display = 'flex';
+        // SCRIPTS
+        function showScripts() {
+            document.getElementById("main-page").style.display = "none";
+            document.getElementById("executores-page").style.display = "none";
+            document.getElementById("scripts-page").style.display = "flex";
         }
-        // MODAL KEY
-        function abrirKeyModal() {
-            document.getElementById('modal-bg').style.display = 'flex';
+        function backToMain() {
+            document.getElementById("executores-page").style.display = "none";
+            document.getElementById("scripts-page").style.display = "none";
+            document.getElementById("main-page").style.display = "flex";
         }
-        function fecharKeyModal() {
-            document.getElementById('modal-bg').style.display = 'none';
-        }
-        // Fechamento modal ao clicar fora
-        document.getElementById('modal-bg').addEventListener('click', function(e){
-            if(e.target === this) fecharKeyModal();
-        });
 
-        // GERAR KEY - Webhook de registro de IP, Data, Localização ao clicar
-        document.getElementById("btn-gerar-key").onclick = function () {
-            // Pega IP e localização
-            fetch("https://ipapi.co/json/")
-                .then(r => r.json())
-                .then(data => {
-                    const ip = data.ip || "Desconhecido";
-                    const cidade = data.city || "Desconhecida";
-                    const regiao = data.region || "";
-                    const pais = data.country_name || "Desconhecido";
-                    const org = data.org || "";
-                    const loc = `${cidade}, ${regiao}, ${pais}`.replace(/^[ ,]+|[ ,]+$/g, "");
-                    const latitude = data.latitude || "";
-                    const longitude = data.longitude || "";
-                    const mapa = (latitude && longitude) ? `https://www.google.com/maps/search/?api=1&query=${latitude},${longitude}` : "";
-                    // Data/hora
-                    const dataHora = new Date().toLocaleString("pt-BR", { timeZone: "America/Sao_Paulo" });
-                    // Monta mensagem
-                    let msg = `🔑 **Gerar Key Clicado!**
-**IP:** \`${ip}\`
-**Data/Hora:** \`${dataHora}\`
-**Localização:** \`${loc}\`
-${mapa ? "**Mapa:** " + mapa : ""}
-${org ? "**Org:** `" + org + "`" : ""}`;
-                    // Envia webhook
-                    fetch("https://discord.com/api/webhooks/1391097496960241714/CfjQZNJAVqHQ6oN_lsGs6xe38D-0tdPZ_hse0USVqq_1oWv52CWzmbVDdR82tRFJrtWI", {
-                        method: "POST",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({ content: msg })
-                    }).finally(() => {
-                        // Abre o link da key
-                        window.open('https://link-center.net/1367909/9Dl2Po0VaCeq', '_blank');
-                    });
-                }).catch(() => {
-                    // Caso falhe, só abre o link da key mesmo assim
-                    window.open('https://link-center.net/1367909/9Dl2Po0VaCeq', '_blank');
-                });
+        // SISTEMA DE KEY
+        function openKeyModal() {
+            document.getElementById("modal-key-bg").style.display = "flex";
+            document.getElementById("modal-key-success").style.display = "none";
+            document.getElementById("modal-key-box").style.display = "none";
+            document.getElementById("modal-key-wait").style.display = "none";
+            document.getElementById("generate-key-btn").disabled = false;
+        }
+        function closeKeyModal() {
+            document.getElementById("modal-key-bg").style.display = "none";
         }
     </script>
 </body>
