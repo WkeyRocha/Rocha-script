@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Rocha Scripts</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- Google Fonts for modern look -->
+  
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
         html, body {
@@ -514,7 +514,7 @@
         document.addEventListener('selectstart', function(e) { e.preventDefault(); return false; });
         document.addEventListener('dragstart', function(e) { e.preventDefault(); return false; });
 
-        // SPARKLES
+        
         function randomBetween(a, b) { return Math.random() * (b - a) + a; }
         function createSparkle() {
             const c = document.getElementById("sparkle-container");
@@ -535,7 +535,7 @@
         }
         setInterval(createSparkle, 320);
 
-        // CAPTCHA
+       
         let captchaCode = "";
         function generateCaptcha() {
             const chars = "ABCDEFGHJKMNPQRSTUVWXYZ23456789";
@@ -583,13 +583,13 @@
             });
         });
 
-        // EXECUTORES
+       
         function showExecutores() {
             document.getElementById("main-page").style.display = "none";
             document.getElementById("executores-page").style.display = "flex";
             document.getElementById("scripts-page").style.display = "none";
         }
-        // SCRIPTS
+       
         function showScripts() {
             document.getElementById("main-page").style.display = "none";
             document.getElementById("executores-page").style.display = "none";
@@ -601,7 +601,7 @@
             document.getElementById("main-page").style.display = "flex";
         }
 
-        // SISTEMA DE KEY
+        
         function openKeyModal() {
             document.getElementById("modal-key-bg").style.display = "flex";
             document.getElementById("modal-key-success").style.display = "none";
